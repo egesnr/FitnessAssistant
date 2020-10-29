@@ -19,7 +19,10 @@ public class Cardio extends Hareketler {
                 "Runnig "+ getRunning()+"\n" +
                 "Cycling "+ getBycycle()+"\n" +
                 "Rowing "+getRowing());
+        System.out.println("Have a nice day");
 
 
     }
+
+
 }

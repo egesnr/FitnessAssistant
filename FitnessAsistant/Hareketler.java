@@ -1,6 +1,8 @@
 package FitnessAsistant;
 
-public abstract class Hareketler {
+import java.io.Serializable;
+
+public abstract class Hareketler implements Serializable {
      private int Running;
      private int Bycycle;
     private int Rowing;

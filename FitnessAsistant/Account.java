@@ -1,10 +1,9 @@
 package FitnessAsistant;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
-public class Account {
+public class Account implements Serializable {
     Scanner s = new Scanner(System.in);
     private String name;
     private String surname;
@@ -36,7 +35,7 @@ public class Account {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 
@@ -61,7 +60,7 @@ public class Account {
         System.out.println("Write your Surname");
         setSurname(s.nextLine());
         System.out.println("Write your height");
-        setHeight(s.nextInt());
+        setHeight(s.nextDouble());
         System.out.println("Write your weight");
         setWeight(s.nextInt());
         if(vke().equals("Skinny"))
@@ -77,23 +76,21 @@ public class Account {
                 "Weight: "+getWeight()+"\n" +
                 "Body Mass Index: "+ a+" "+vke());
         System.out.println(Recommended);
-        try(FileWriter writer = new FileWriter("account.txt")) {
-            writer.write( "Name: "+getName()+"\n");
-            writer.write("Surname: "+getSurname()+"\n");
-            writer.write("Height: "+getHeight()+"\n");
-            writer.write("Weight: "+getWeight()+"\n");
-            writer.write( "Body Mass Index: "+ a+" "+vke());
-        }
+        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("account.txt"))){
+            out.writeObject(toString());
 
-        catch (IOException e) {
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
+
         System.out.println("Your account has succesfully  been  saved");
 
 
     }
     public String vke(){
-        a = getHeight()/(getHeight()*getHeight());
+        a = getWeight()/(getHeight()*getHeight());
         if(a<20)
             return "Skinny";
         else if(a<25)
@@ -101,5 +98,16 @@ public class Account {
         else
             return "Fat";
 
+    }
+
+    @Override
+    public String toString() {
+        return "Account: \n" +
+                "Name: "+getName()+"\n" +
+                "Surname: "+ getSurname()+"\n"+
+                "Height: "+getHeight()+"\n"+
+                "Weight: "+getWeight()+"\n"+
+                "Boddy Mass Index: "+a+" Body Type is: "+vke()+"\n" +
+                Recommended;
     }
 }
